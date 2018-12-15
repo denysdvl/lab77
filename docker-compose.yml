@@ -1,0 +1,38 @@
+version: '2'
+services:
+
+ mysql:
+  image: mysql:latest
+  container_name: pwcho2018-84218
+  environment:
+   - MYSQL_ROOT_PASSWORD=root
+   - MYSQL_DATABASE=BD
+   - MYSQL_USER=Denys_Zhorov
+   - MYSQL_PASSWORD=pass
+  ports:
+   - "3306:3306"
+  networks:
+   Bridge-Zadanie-1:
+    ipv4_address: 10.0.10.3
+
+ java:
+  image: java:8
+  container_name: Containerjava
+  depends_on:
+   - mysql
+  links:
+   - "mysql:database"
+  networks:
+   - Bridge-Zadanie-1
+  stdin_open: true
+  tty: true
+
+volumes:
+ mysql:
+networks:
+ Bridge-Zadanie-1:
+  driver: bridge
+  ipam:
+   config:
+    - subnet: 10.0.10.0/24
+      gateway: 10.0.10.1
